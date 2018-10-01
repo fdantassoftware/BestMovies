@@ -15,7 +15,7 @@ class MainVC: UIViewController {
     var movies = [Movie]()
     let topView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor().setRGB(r: 12, g: 26, b: 86)
+        view.backgroundColor = UIColor.black
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -70,6 +70,10 @@ class MainVC: UIViewController {
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         self.view.endEditing(true)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
  
     
