@@ -12,5 +12,5 @@ class ApiResults: Decodable {
     let page: Int
     let total_results: Int
     let total_pages: Int
-    let results: [Movie]
+    var results: [Movie]
 }

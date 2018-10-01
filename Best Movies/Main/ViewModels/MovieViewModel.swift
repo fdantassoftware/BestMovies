@@ -9,8 +9,9 @@
 import Foundation
 
 protocol MovieProtocol: class {
-    func didGetResultFromApiCall(error: String?, login: ApiResults?)
     func didFailToParseData(error: String)
+    func requestDidFail(error: String)
+    func didGetData(data: ApiResults)
 }
 
 class MovieViewModel: RequestDelegate {
@@ -36,20 +37,20 @@ extension MovieViewModel {
     private func parseData(data: Data) {
         do {
             let result = try JSONDecoder().decode(ApiResults.self, from: data)
-            result.results.sorted(by: { $0.popularity > $1.popularity })
+            // Here we sort our array of movies by popularity
+            result.results = result.results.sorted(by: { $0.popularity > $1.popularity })
+            self.delegate?.didGetData(data: result)
             
         } catch let error {
             self.delegate?.didFailToParseData(error: error.localizedDescription)
         }
-        
     }
     
     // Here we conform to Request Delegate and get data from request
     func didFinishRequest(data: Data?, error: Error?) {
         if error != nil {
-            self.delegate?.didGetResultFromApiCall(error: error?.localizedDescription, login: nil)
+            self.delegate?.requestDidFail(error: error?.localizedDescription ?? "")
         }
         parseData(data: data!)
-//        self.delegate?.didGetResultFromApiCall(error: nil, login: data!)
     }
 }

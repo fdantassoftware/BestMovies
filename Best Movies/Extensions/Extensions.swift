@@ -7,13 +7,16 @@
 //
 
 import Foundation
+import UIKit
 
-// Extension to get query string from dictionary
-extension Dictionary {
-    var queryString: String? {
-        return self.reduce("") { "\($0!)\($1.0)=\($1.1)&" }
+// Get rgb color instead of typing /255 everytime
+extension UIColor {
+    func setRGB(r: CGFloat, g: CGFloat, b: CGFloat) -> UIColor {
+        return UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1)
     }
 }
+
+// Extension to get query string from dictionary
 extension URLComponents{
     var queryItemsDictionary : [String:Any]{
         set (queryItemsDictionary){
