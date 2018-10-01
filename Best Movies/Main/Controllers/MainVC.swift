@@ -9,10 +9,13 @@
 import UIKit
 
 class MainVC: UIViewController {
-
+    var model = MovieViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
+        model.delegate = self
+        model.fetchMovies(endPoint: .popular(page: 1, language: "en-US"))
         // Do any additional setup after loading the view.
+    
     }
     
 
@@ -26,4 +29,12 @@ class MainVC: UIViewController {
     }
     */
 
+}
+
+extension MainVC: MovieProtocol {
+    func didGetResultFromLogin(error: String?, login: ApiResults?) {
+        
+    }
+    
+    
 }

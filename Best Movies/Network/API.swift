@@ -10,24 +10,33 @@ import Foundation
 
 class API {
     
-    var baseURL: URL {
-        guard let url = URL(string: "https://api.themoviedb.org/3/movie/") else { fatalError("baseURL could not be configured") }
-        return url
-    }
-    
-    var endPoint: String
-    
-    init(endPoint: EndPoint) {
-        self.endPoint = endPoint.rawValue
-    }
-    
+    // We could store the api key more securely however for simplicity lets put it here
+    static let apiKey = "44cea07f0c8fe55ce96d9c3204aa387c"
 }
 
-// Here we we can add more endpoints if necessary
 
-enum EndPoint: String {
-    case latest = "latest"
-    case nowPlaying = "now_playing"
-    case popular = "popular"
+
+enum EndPoint {
+    // If we need to add another endpoint we just need to create a new case and pass however we need to the enum ex page, language etc
+    case popular(page: Int, language: String)
     
+    private var baseURL: String {
+        var url = "api.themoviedb.org"
+        return url
+        
+    }
+    
+    // here we build our url easily using URLComponents according to the end point we want
+    var url: URLComponents? {
+        switch self {
+        case .popular(let page, let language):
+            var url = URLComponents()
+            url.scheme = "https";
+            url.host = baseURL;
+            url.path = "/3/movie/popular";
+            url.queryItemsDictionary = ["api_key": API.apiKey, "language":language, "page": page]
+            return url
+        }
+    }
+  
 }
