@@ -27,7 +27,7 @@ enum EndPoint {
     }
     
     // here we build our url easily using URLComponents according to the end point we want
-    var url: URLComponents? {
+    var url: URL? {
         switch self {
         case .popular(let page, let language):
             var url = URLComponents()
@@ -35,7 +35,7 @@ enum EndPoint {
             url.host = baseURL;
             url.path = "/3/movie/popular";
             url.queryItemsDictionary = ["api_key": API.apiKey, "language":language, "page": page]
-            return url
+            return url.url
         }
     }
   

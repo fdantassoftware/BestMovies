@@ -32,9 +32,14 @@ class MainVC: UIViewController {
 }
 
 extension MainVC: MovieProtocol {
-    func didGetResultFromLogin(error: String?, login: ApiResults?) {
-        
+    
+    func didFailToParseData(error: String) {
+        // Data
     }
     
+    func didGetResultFromApiCall(error: String?, login: ApiResults?) {
+        
+    }
+   
     
 }

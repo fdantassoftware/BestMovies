@@ -10,7 +10,7 @@ import Foundation
 
 class ApiResults: Decodable {
     let page: Int
-    let numResults: Int
-    let numPages: Int
-    let movies: [Movie]
+    let total_results: Int
+    let total_pages: Int
+    let results: [Movie]
 }

@@ -20,11 +20,12 @@ class Request {
     
     func beginGetRequest(url: URL) {
         URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if error != nil || data != nil {
+            if error != nil {
                 self.delegate?.didFinishRequest(data: nil, error: error)
             }
+            guard let data = data else { return }
             self.delegate?.didFinishRequest(data: data, error: nil)
-            }.resume()
+        }.resume()
     }
     
 }

@@ -9,12 +9,11 @@
 import Foundation
 
 class Movie: Decodable {
-    let id: Int!
-    let posterPath: String?
-    let videoPath: String?
-    let backdrop: String
+    let id: Int
+    let poster_path: String?
+    let backdrop_path: String?
     let title: String
-    var releaseData: String
-    var rating: Double
+    var release_date: String
+    var popularity: Double
     let overview: String
 }
