@@ -11,7 +11,7 @@ import UIKit
 class MainVC: UIViewController {
     
     let cellID = "MovieCell"
-    
+    var movies = [Movie]()
     let topView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor().setRGB(r: 12, g: 26, b: 86)
@@ -31,25 +31,21 @@ class MainVC: UIViewController {
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-//        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-//        layout.itemSize = CGSize(width: 60, height: 60)
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.red
+        collectionView.backgroundColor = UIColor().setRGB(r: 205, g: 229, b: 241)
         collectionView.isScrollEnabled = true
-//        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "MovieCell")
-        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    var model = MovieViewModel()
+    var movieViewModel = MovieViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: cellID)
-        model.delegate = self
-        model.fetchMovies(endPoint: .popular(page: 1, language: "en-US"))
+        movieViewModel.delegate = self
+        movieViewModel.fetchMovies(endPoint: .popular(page: 1, language: "en-US"))
         view.addSubview(topView)
         view.addSubview(collectionView) 
         topView.addSubview(topViewTitle)
@@ -80,17 +76,23 @@ class MainVC: UIViewController {
 extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
-        cell.backgroundColor = UIColor.white
-        return cell
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? MovieCell {
+            let movie = movies[indexPath.row]
+            cell.configureCell(movie: movie)
+            cell.backgroundColor = UIColor.black
+            return cell
+        } else {
+            return UICollectionViewCell()
+        }
+        
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 178, height: 180)
+        return CGSize(width: 178, height: 265)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -113,6 +115,10 @@ extension MainVC: MovieProtocol {
     
     func didGetData(data: ApiResults) {
         // Here we have our data ready
+        DispatchQueue.main.async {
+            self.movies = data.results
+            self.collectionView.reloadData()
+        }
     }
    
 }

@@ -16,4 +16,6 @@ class Movie: Decodable {
     var release_date: String
     var popularity: Double
     let overview: String
+    let vote_average: Double
+    let genre_ids: [Int]
 }

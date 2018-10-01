@@ -19,7 +19,7 @@ class API {
 enum EndPoint {
     // If we need to add another endpoint we just need to create a new case and pass however we need to the enum ex page, language etc
     case popular(page: Int, language: String)
-    
+    case genres(language: String)
     private var baseURL: String {
         var url = "api.themoviedb.org"
         return url
@@ -35,6 +35,13 @@ enum EndPoint {
             url.host = baseURL;
             url.path = "/3/movie/popular";
             url.queryItemsDictionary = ["api_key": API.apiKey, "language":language, "page": page]
+            return url.url
+        case .genres(let language):
+            var url = URLComponents()
+            url.scheme = "https";
+            url.host = baseURL;
+            url.path = "/3/genre/movie/list";
+            url.queryItemsDictionary = ["api_key": API.apiKey, "language":language]
             return url.url
         }
     }

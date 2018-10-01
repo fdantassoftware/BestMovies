@@ -33,3 +33,31 @@ extension URLComponents{
         }
     }
 }
+
+// Nice extension to give a string given a date
+extension Date
+{
+    func toString( dateFormat format  : String ) -> String
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
+}
+
+// Date given a string
+
+extension String
+{
+    func  toDate( dateFormat format  : String) -> Date
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        if let date = dateFormatter.date(from: self)
+        {
+            return date
+        }
+        print("Invalid arguments ! Returning Current Date . ")
+        return Date()
+    }
+}

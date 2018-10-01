@@ -6,7 +6,7 @@ target 'Best Movies' do
   use_frameworks!
 
   # Pods for Best Movies
-
+pod 'Kingfisher'
   target 'Best MoviesTests' do
     inherit! :search_paths
     # Pods for testing

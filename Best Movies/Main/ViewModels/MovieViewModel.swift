@@ -18,6 +18,7 @@ class MovieViewModel: RequestDelegate {
     
     weak var delegate: MovieProtocol?
     var request =  Request()
+    var genreViewModel = GenreViewModel()
     
     init() {
         request.delegate = self
@@ -27,7 +28,9 @@ class MovieViewModel: RequestDelegate {
         // Here we make our network request
         guard let url = endPoint.url else {return}
         request.beginGetRequest(url: url)
+        genreViewModel.fetchGenres(endPoint: .genres(language: "en-US"))
     }
+    
     
 }
 
