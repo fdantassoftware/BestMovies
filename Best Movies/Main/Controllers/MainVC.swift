@@ -9,7 +9,8 @@
 import UIKit
 
 class MainVC: UIViewController {
-    
+    var filteredMovies = [Movie]()
+    var isSearching = false
     let cellID = "MovieCell"
     var movies = [Movie]()
     let topView: UIView = {
@@ -38,20 +39,39 @@ class MainVC: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    
+    let searchBar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.backgroundColor = UIColor.white
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        bar.placeholder = "Movie"
+        return bar
+    }()
     var movieViewModel = MovieViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
+        searchBar.delegate = self
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: cellID)
         movieViewModel.delegate = self
         movieViewModel.fetchMovies(endPoint: .popular(page: 1, language: "en-US"))
         view.addSubview(topView)
-        view.addSubview(collectionView) 
         topView.addSubview(topViewTitle)
+        view.addSubview(searchBar)
+        view.addSubview(collectionView)
         configureConstraints()
-    
+        
+        // here we add a tap recognizer to the collectionView to allow for end editing
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        collectionView.addGestureRecognizer(tap)
     }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+    }
+ 
     
     func configureConstraints() {
         topView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -64,10 +84,16 @@ class MainVC: UIViewController {
         topViewTitle.widthAnchor.constraint(equalToConstant: 150).isActive = true
         topViewTitle.topAnchor.constraint(equalTo: topView.topAnchor, constant: 40).isActive = true
         
+        
+        searchBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        searchBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+        
+        
         collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        collectionView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor).isActive = true
     }
 
 }
@@ -77,7 +103,12 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? MovieCell {
-            let movie = movies[indexPath.row]
+            let movie: Movie
+            if isSearching {
+                movie = filteredMovies[indexPath.row]
+            } else {
+                movie = movies[indexPath.row]
+            }
             cell.configureCell(movie: movie)
             cell.backgroundColor = UIColor.black
             return cell
@@ -88,7 +119,11 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies.count
+        if isSearching {
+            return filteredMovies.count
+        } else {
+            return movies.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -121,4 +156,51 @@ extension MainVC: MovieProtocol {
         }
     }
    
+}
+
+
+
+
+extension MainVC: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        isSearching = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        isSearching = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        isSearching = false
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        isSearching = false
+        self.view.endEditing(true)
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if (searchBar.text?.isEmpty)! {
+            self.view.endEditing(true)
+        }
+        
+        // Filter array based on texted typed
+        filteredMovies = movies.filter { movie in
+            return movie.title.lowercased().contains(searchText.lowercased())
+        }
+        if(filteredMovies.count == 0) {
+            isSearching = false
+        } else {
+            isSearching = true
+        }
+        self.collectionView.reloadData()
+        
+    }
+    
 }

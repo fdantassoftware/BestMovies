@@ -8,6 +8,8 @@
 
 import Foundation
 
+//Porotocols to handle our results
+
 protocol MovieProtocol: class {
     func didFailToParseData(error: String)
     func requestDidFail(error: String)
@@ -20,12 +22,13 @@ class MovieViewModel: RequestDelegate {
     var request =  Request()
     var genreViewModel = GenreViewModel()
     
+    // here we we initialize our view Model we set our request delegate
     init() {
         request.delegate = self
     }
     
     func fetchMovies(endPoint: EndPoint) {
-        // Here we make our network request
+        // Here we make 2 requests one to get our movies and other for our genres
         guard let url = endPoint.url else {return}
         request.beginGetRequest(url: url)
         genreViewModel.fetchGenres(endPoint: .genres(language: "en-US"))

@@ -29,6 +29,7 @@ class MovieCell: UICollectionViewCell {
         date.text = "Release: \(dateFromString.toString(dateFormat: "MMM dd, yyyy"))"
         rate.text = "Rating: \(movie.vote_average)"
         if !(GenreHelper.shared.genres.isEmpty) {
+            // Here we get our first genre and grab the name from our helper array
             if let ele = GenreHelper.shared.genres.first(where: {$0.id == movie.genre_ids[0]}) {
                 genre.text = "Genre: \(ele.name)"
             }

@@ -18,6 +18,8 @@ class GenreResults: Decodable {
 }
 
 
+// Here we create a helper to save our genres data and use it later
+
 class GenreHelper {
     
     static let shared: GenreHelper = {
