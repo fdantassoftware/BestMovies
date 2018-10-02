@@ -2,7 +2,7 @@
 
 1. To start the app open the project folder and open Best Movies Workplace. Xcode will open select a device on the simulator list and press Run or play button. You will need the latest version of Xcode.
 
-2. The architecture i used was my own version of the MVVM project the reason i chose is the fact that the code becomes very clean
+2. The architecture i used was my own version of the MVVM, the reason i chose is the fact that the code becomes very clean
 and easy to read. Every responsability is seperated which also allows for a good testing range. Apart from that it also reduces the amount
 of code on the Controller avoiding the famous Massive View Controller problem ecountered on the Standard MCV architecture.
 
