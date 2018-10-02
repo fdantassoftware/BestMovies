@@ -10,19 +10,21 @@ import UIKit
 
 class DetailsVC: UIViewController {
     
+    @IBOutlet weak var genreLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var runtimeLabel: UILabel!
     @IBOutlet weak var linkBtn: UIButton!
     @IBOutlet weak var revenueLabel: UILabel!
     @IBOutlet weak var languageLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     private var detailsViewModel = DetailsViewModel()
     var movie: Movie!
     private let network = NetworkManager.sharedInstance
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleLabel.text = movie.title
         detailsViewModel.delegate = self
         
         // Here we handle connection issues at lunch
@@ -83,8 +85,19 @@ extension DetailsVC: DetailsProtocol {
     
     // Here we update our UI
     func updateUI(movieDetails: MovieDetail) {
+        titleLabel.text = movie.title
         languageLabel.text = movieDetails.original_language.capitalized
         revenueLabel.text = "$\(movieDetails.revenue)"
+        let dateFromString = movie.release_date.toDate(dateFormat: "yyyy-mm-dd")
+        ratingLabel.text = String(movie.vote_average)
+        dateLabel.text = dateFromString.toString(dateFormat: "MMM dd, yyyy")
+        
+        if !(GenreHelper.shared.genres.isEmpty) {
+            // Here we get our first genre and grab the name from our helper array
+            if let ele = GenreHelper.shared.genres.first(where: {$0.id == movie.genre_ids[0]}) {
+                genreLabel.text = String(ele.name)
+            }
+        }
         
         if movieDetails.homepage != nil {
             linkBtn.setTitle(movieDetails.homepage!, for: .normal)

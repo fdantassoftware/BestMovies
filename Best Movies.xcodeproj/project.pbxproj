@@ -31,6 +31,7 @@
 		9A6A3CF721636C4400DC625C /* DetailsViewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6A3CF621636C4400DC625C /* DetailsViewmodel.swift */; };
 		9A6A3CF92163716B00DC625C /* MovieDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6A3CF82163716B00DC625C /* MovieDetail.swift */; };
 		9A6A3CFF216391FE00DC625C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6A3CFE216391FE00DC625C /* NetworkManager.swift */; };
+		9A6A3D5A2163B0CA00DC625C /* MoviesData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A6A3D582163B0CA00DC625C /* MoviesData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		9A6A3CF621636C4400DC625C /* DetailsViewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewmodel.swift; sourceTree = "<group>"; };
 		9A6A3CF82163716B00DC625C /* MovieDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetail.swift; sourceTree = "<group>"; };
 		9A6A3CFE216391FE00DC625C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		9A6A3D592163B0CA00DC625C /* MoviesData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoviesData.xcdatamodel; sourceTree = "<group>"; };
 		A14D101C1DE542FDF28599EE /* Pods-Best MoviesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Best MoviesUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Best MoviesUITests/Pods-Best MoviesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A41F304E626979AC8341B696 /* Pods_Best_Movies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Best_Movies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAB2DF624DF6DB9084110235 /* Pods-Best MoviesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Best MoviesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Best MoviesTests/Pods-Best MoviesTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 		9A4F7F27215D293E0017A5FE = {
 			isa = PBXGroup;
 			children = (
+				9A6A3D032163A74600DC625C /* New Group */,
 				9A4F7F32215D293E0017A5FE /* Best Movies */,
 				9A4F7F47215D29410017A5FE /* Best MoviesTests */,
 				9A4F7F52215D29410017A5FE /* Best MoviesUITests */,
@@ -163,6 +166,7 @@
 		9A4F7F32215D293E0017A5FE /* Best Movies */ = {
 			isa = PBXGroup;
 			children = (
+				9A6A3D502163AF3500DC625C /* Core Data */,
 				9A6A3CF1216361D900DC625C /* Designables */,
 				9A2AC8FF21621D0700610596 /* Extensions */,
 				9A4F7F69215D30A20017A5FE /* Storyboards */,
@@ -283,6 +287,21 @@
 				9A6A3CF22163621300DC625C /* UIImageviewX.swift */,
 			);
 			path = Designables;
+			sourceTree = "<group>";
+		};
+		9A6A3D032163A74600DC625C /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		9A6A3D502163AF3500DC625C /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				9A6A3D582163B0CA00DC625C /* MoviesData.xcdatamodeld */,
+			);
+			path = "Core Data";
 			sourceTree = "<group>";
 		};
 		B9128E77DE31EBD597B4B01A /* Frameworks */ = {
@@ -509,6 +528,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A6A3D5A2163B0CA00DC625C /* MoviesData.xcdatamodeld in Sources */,
 				9A4F7F6D215D32190017A5FE /* ApiResults.swift in Sources */,
 				9A2AC8FC2162175500610596 /* Request.swift in Sources */,
 				9A2AC9032162456C00610596 /* MovieCell.swift in Sources */,
@@ -855,6 +875,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9A6A3D582163B0CA00DC625C /* MoviesData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9A6A3D592163B0CA00DC625C /* MoviesData.xcdatamodel */,
+			);
+			currentVersion = 9A6A3D592163B0CA00DC625C /* MoviesData.xcdatamodel */;
+			path = MoviesData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9A4F7F28215D293E0017A5FE /* Project object */;
 }

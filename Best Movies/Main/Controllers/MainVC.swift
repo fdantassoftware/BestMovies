@@ -9,6 +9,7 @@
 import UIKit
 import Reachability
 import GSMessages
+import CoreData
 
 class MainVC: UIViewController {
     
@@ -23,11 +24,11 @@ class MainVC: UIViewController {
     var movieViewModel = MovieViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
+//        getData()
         collectionView.delegate = self
         collectionView.dataSource = self
         searchBar.delegate = self
         movieViewModel.delegate = self
-
         // Here we handle connection issues at lunch
         
         NetworkManager.isUnreachable { networkManagerInstance in
@@ -80,6 +81,41 @@ class MainVC: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    func saveData(data: Movie) {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "MoviesData", in: context)
+        let newEntity = NSManagedObject(entity: entity!, insertInto: context)
+        newEntity.setValue(data.title, forKey: "title")
+        newEntity.setValue(String(data.id), forKey: "id")
+        newEntity.setValue(data.release_date, forKey: "date")
+        newEntity.setValue(data.vote_average, forKey: "rate")
+        newEntity.setValue(String(data.genre_ids[0]), forKey: "genre")
+        newEntity.setValue(data.poster_path, forKey: "image")
+        do {
+            try context.save()
+            print("saved")
+        } catch let error {
+            print("Error \(error)")
+        }
+    }
+    
+//    func getData() {
+//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MoviesData")
+//
+//        do {
+//            let result = try context.fetch(request)
+//            for data in result as! [NSManagedObject] {
+//                print(data.value(forKey: "title") as! String)
+//            }
+//        } catch {
+//            print(error)
+//        }
+//    }
+    
+    
+  
  
 }
 
@@ -154,15 +190,43 @@ extension MainVC: MovieProtocol {
         
     }
     
+    func checkMovie(id: Int) -> Bool {
+        var value = false
+        // Here we check if an movie already exists before saving
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MoviesData")
+        
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                let title = data.value(forKey: "id") as! String
+                if title == String(id) {
+                    value = true
+                    break
+                } else {
+                    value = false
+                }
+            }
+        } catch {
+            print(error)
+        }
+        return value
+    }
+    
     func didGetData(data: ApiResults) {
         // Here we have our data ready
         DispatchQueue.main.async {
             self.movies = data.results
             self.collectionView.reloadData()
             self.refreshControl.endRefreshing()
+            for ele in data.results {
+                if !(self.checkMovie(id: ele.id)) {
+                    self.saveData(data: ele)
+                }
+            }
         }
     }
-   
+ 
 }
 
 
@@ -193,8 +257,9 @@ extension MainVC: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        if (searchBar.text?.isEmpty)! {
-            self.view.endEditing(true)
+        if searchBar.text == nil || searchBar.text == ""
+        {
+            searchBar.perform(#selector(self.resignFirstResponder), with: nil, afterDelay: 0.1)
         }
         
         // Filter array based on texted typed
