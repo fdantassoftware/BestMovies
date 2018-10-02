@@ -7,7 +7,7 @@ and easy to read. Every responsability is seperated which also allows for a good
 of code on the Controller avoiding the famous Massive View Controller problem ecountered on the Standard MCV architecture.
 
 3. The Libraries used were Kingfisher, ReachabilitySwift and GSMessages installed via Cocoapods.
-  a. Kingfisher is just a nice and clean library to download images async and cache it and the same time which reduces time and effort.
+  a. Kingfisher is just a nice and clean library to download images async and cache it at the same time which reduces time and effort.
   b. ReachabilitySwift was used to handle network changes. It is ideal if you dont want to work with the complex inbuilt apis.
   c. GSMessages is a nice way to show messages to the user. In the app i used it to show network erros. Again it reduced time
   if i was to implement it myself.
