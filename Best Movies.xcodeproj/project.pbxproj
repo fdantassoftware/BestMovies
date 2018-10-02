@@ -30,6 +30,7 @@
 		9A6A3CF521636A8100DC625C /* DetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6A3CF421636A8100DC625C /* DetailsVC.swift */; };
 		9A6A3CF721636C4400DC625C /* DetailsViewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6A3CF621636C4400DC625C /* DetailsViewmodel.swift */; };
 		9A6A3CF92163716B00DC625C /* MovieDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6A3CF82163716B00DC625C /* MovieDetail.swift */; };
+		9A6A3CFF216391FE00DC625C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6A3CFE216391FE00DC625C /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		9A6A3CF421636A8100DC625C /* DetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsVC.swift; sourceTree = "<group>"; };
 		9A6A3CF621636C4400DC625C /* DetailsViewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewmodel.swift; sourceTree = "<group>"; };
 		9A6A3CF82163716B00DC625C /* MovieDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetail.swift; sourceTree = "<group>"; };
+		9A6A3CFE216391FE00DC625C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		A14D101C1DE542FDF28599EE /* Pods-Best MoviesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Best MoviesUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Best MoviesUITests/Pods-Best MoviesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A41F304E626979AC8341B696 /* Pods_Best_Movies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Best_Movies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAB2DF624DF6DB9084110235 /* Pods-Best MoviesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Best MoviesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Best MoviesTests/Pods-Best MoviesTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 			children = (
 				9A4F7F6E215D379A0017A5FE /* API.swift */,
 				9A2AC8FB2162175500610596 /* Request.swift */,
+				9A6A3CFE216391FE00DC625C /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -484,11 +487,15 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Best Movies/Pods-Best Movies-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GSMessages/GSMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -506,6 +513,7 @@
 				9A2AC8FC2162175500610596 /* Request.swift in Sources */,
 				9A2AC9032162456C00610596 /* MovieCell.swift in Sources */,
 				9A4F7F71215D396D0017A5FE /* MainVC.swift in Sources */,
+				9A6A3CFF216391FE00DC625C /* NetworkManager.swift in Sources */,
 				9A2AC90121621D2200610596 /* Extensions.swift in Sources */,
 				9A2AC90D21626C8400610596 /* GenreViewModel.swift in Sources */,
 				9A4F7F6B215D30ED0017A5FE /* Movie.swift in Sources */,

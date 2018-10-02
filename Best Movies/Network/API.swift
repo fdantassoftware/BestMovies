@@ -22,7 +22,7 @@ enum EndPoint {
     case genres(language: String)
     case details(id: Int, language: String)
     private var baseURL: String {
-        var url = "api.themoviedb.org"
+        let url = "api.themoviedb.org"
         return url
         
     }

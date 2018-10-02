@@ -11,20 +11,46 @@ import UIKit
 class DetailsVC: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var runtimeLabel: UILabel!
     @IBOutlet weak var linkBtn: UIButton!
     @IBOutlet weak var revenueLabel: UILabel!
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    var detailsViewModel = DetailsViewModel()
+    private var detailsViewModel = DetailsViewModel()
     var movie: Movie!
+    private let network = NetworkManager.sharedInstance
     override func viewDidLoad() {
         super.viewDidLoad()
         titleLabel.text = movie.title
-        detailsViewModel.fetchMovieDetails(endPoint: .details(id: movie.id, language: "en-US"))
         detailsViewModel.delegate = self
+        
+        // Here we handle connection issues at lunch
+        
+        NetworkManager.isUnreachable { networkManagerInstance in
+            DispatchQueue.main.async {
+                self.showMessage("The connection appears to be offline.", type: .error)
+            }
+        }
+        
+        NetworkManager.isReachable { networkManagerInstance in
+            self.fetchDetails()
+        }
+        
+        network.reachability.whenUnreachable = { reachability in
+            DispatchQueue.main.async {
+                self.showMessage("The connection appears to be offline.", type: .error)
+            }
+        }
+        
+        network.reachability.whenReachable = { reachability in
+            self.fetchDetails()
+        }
+      
+    }
+    
+    func fetchDetails() {
+        detailsViewModel.fetchMovieDetails(endPoint: .details(id: movie.id, language: "en-US"))
     }
  
     @IBAction func backPressed(_ sender: Any) {
@@ -46,6 +72,10 @@ class DetailsVC: UIViewController {
         let minutes = (seconds / 60) % 60
         return "\(hours)h\(minutes)m"
     }
+    
+  
+    
+   
     
 }
 
@@ -81,11 +111,15 @@ extension DetailsVC: DetailsProtocol {
     }
     
     func didFailToParseData(error: String) {
-        print(error)
+        DispatchQueue.main.async {
+            self.showMessage("An error has ocurred. Try again later.", type: .error)
+        }
     }
     
     func requestDidFail(error: String) {
-        print(error)
+        DispatchQueue.main.async {
+            self.showMessage(error, type: .error)
+        }
     }
     
     func didGetData(data: MovieDetail) {

@@ -1,16 +1,24 @@
 PODS:
+  - GSMessages (1.6.1)
   - Kingfisher (4.10.0)
+  - ReachabilitySwift (4.2.1)
 
 DEPENDENCIES:
+  - GSMessages
   - Kingfisher
+  - ReachabilitySwift
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - GSMessages
     - Kingfisher
+    - ReachabilitySwift
 
 SPEC CHECKSUMS:
+  GSMessages: 870aa0fc8cf39bea0026535ea195376d4040313e
   Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
+  ReachabilitySwift: 35720ffea59c1c76d15f885be77fd33e33985427
 
-PODFILE CHECKSUM: 9c504d5668079aee22888751308477dc2062a402
+PODFILE CHECKSUM: 118f206afaeba8568484e3841734ebc5272b2ac9
 
 COCOAPODS: 1.5.0

@@ -47,7 +47,13 @@ extension DetailsViewModel {
     func didFinishRequest(data: Data?, error: Error?) {
         if error != nil {
             self.delegate?.requestDidFail(error: error?.localizedDescription ?? "")
+        } else {
+            if data != nil {
+                parseData(data: data!)
+            } else {
+                self.delegate?.requestDidFail(error: "An error has ocurred. Try again later.")
+            }
         }
-        parseData(data: data!)
+        
     }
 }

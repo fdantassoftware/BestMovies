@@ -57,6 +57,10 @@ extension MovieViewModel {
         if error != nil {
             self.delegate?.requestDidFail(error: error?.localizedDescription ?? "")
         }
-        parseData(data: data!)
+        if data != nil {
+            parseData(data: data!)
+        } else {
+            self.delegate?.requestDidFail(error: "An error has ocurred. Try again later.")
+        }
     }
 }

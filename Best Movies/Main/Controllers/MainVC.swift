@@ -7,20 +7,19 @@
 //
 
 import UIKit
+import Reachability
+import GSMessages
 
 class MainVC: UIViewController {
-    var filteredMovies = [Movie]()
-    var isSearching = false
-    var movies = [Movie]()
     
-    
- 
+    private var filteredMovies = [Movie]()
+    private var isSearching = false
+    private var movies = [Movie]()
+    private let network = NetworkManager.sharedInstance
+    private let refreshControl = UIRefreshControl()
     @IBOutlet weak var collectionView: UICollectionView!
-    
     @IBOutlet weak var searchBar: UISearchBar!
-    
-    
-   
+
     var movieViewModel = MovieViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,14 +27,56 @@ class MainVC: UIViewController {
         collectionView.dataSource = self
         searchBar.delegate = self
         movieViewModel.delegate = self
-        movieViewModel.fetchMovies(endPoint: .popular(page: 1, language: "en-US"))
-        // here we add a tap recognizer to the collectionView to allow for end editing
-        
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
-//        collectionView.addGestureRecognizer(tap)
-    }
 
+        // Here we handle connection issues at lunch
+        
+        NetworkManager.isUnreachable { networkManagerInstance in
+            DispatchQueue.main.async {
+                self.showMessage("The connection appears to be offline.", type: .error)
+            }
+        }
+        
+        NetworkManager.isReachable { networkManagerInstance in
+            self.fetchMovies()
+        }
+        
+        network.reachability.whenUnreachable = { reachability in
+            DispatchQueue.main.async {
+                self.showMessage("The connection appears to be offline.", type: .error)
+            }
+        }
+        
+        network.reachability.whenReachable = { reachability in
+            self.fetchMovies()
+        }
+        
+        // Add Refresh Control to Table View
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            collectionView.addSubview(refreshControl)
+        }
+        
+        // Configure Refresh Control
+        refreshControl.addTarget(self, action: #selector(refreshMoviesData(_:)), for: .valueChanged)
+      
+    }
     
+    @objc private func refreshMoviesData(_ sender: Any) {
+        // Fetch Movies
+        fetchMovies()
+    }
+    
+    func fetchMovies() {
+        movieViewModel.fetchMovies(endPoint: .popular(page: 1, language: "en-US"))
+    }
+  
+    override func viewDidAppear(_ animated: Bool) {
+        // Here we handle connection issues at lunch
+        
+     
+    }
+ 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -99,12 +140,18 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 extension MainVC: MovieProtocol {
     
     func requestDidFail(error: String) {
-        print(error)
+        
+        DispatchQueue.main.async {
+            self.showMessage(error, type: .error)
+        }
+        
     }
     
     func didFailToParseData(error: String) {
-        // Data
-        print(error)
+        DispatchQueue.main.async {
+            self.showMessage("An error has ocurred. Try again later.", type: .error)
+        }
+        
     }
     
     func didGetData(data: ApiResults) {
@@ -112,6 +159,7 @@ extension MainVC: MovieProtocol {
         DispatchQueue.main.async {
             self.movies = data.results
             self.collectionView.reloadData()
+            self.refreshControl.endRefreshing()
         }
     }
    
@@ -163,3 +211,4 @@ extension MainVC: UISearchBarDelegate {
     }
     
 }
+

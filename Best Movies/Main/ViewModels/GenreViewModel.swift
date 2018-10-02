@@ -39,6 +39,8 @@ extension GenreViewModel {
         if error != nil {
             print(error?.localizedDescription)
         }
-        parseData(data: data!)
+        if data != nil {
+            parseData(data: data!)
+        }
     }
 }

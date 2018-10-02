@@ -7,6 +7,8 @@ target 'Best Movies' do
 
   # Pods for Best Movies
 pod 'Kingfisher'
+pod 'ReachabilitySwift'
+pod "GSMessages"
   target 'Best MoviesTests' do
     inherit! :search_paths
     # Pods for testing
