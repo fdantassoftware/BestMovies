@@ -19,9 +19,7 @@ protocol MovieProtocol: class {
 class MovieViewModel: RequestDelegate {
     
     var data: ApiResults? = nil
-    var userCacheURL: URL?
-    let userCacheQueue = OperationQueue()
-    
+   
     weak var delegate: MovieProtocol?
     var request =  Request()
     var genreViewModel = GenreViewModel()
