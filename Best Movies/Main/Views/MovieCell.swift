@@ -11,9 +11,31 @@ import Kingfisher
 
 class MovieCell: UICollectionViewCell {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
+    @IBOutlet weak var imageView: UIImageViewX!
+    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var rate: UILabel!
+    @IBOutlet weak var genre: UILabel!
+    
+    override func awakeFromNib() {
+        styleCell()
+    }
+    
+    
+    
+    func styleCell() {
+        // Style CollectionView Cell
+        self.layer.cornerRadius = 4.0
+        self.contentView.layer.borderWidth = 1.0
+        self.contentView.layer.borderColor = UIColor.clear.cgColor
+        self.contentView.layer.masksToBounds = true
+        self.layer.shadowColor = UIColor.lightGray.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        self.layer.shadowRadius = 2.0
+        self.layer.shadowOpacity = 1.0
+        self.layer.masksToBounds = false
+        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius:
+            self.contentView.layer.cornerRadius).cgPath
     }
     
     
@@ -36,89 +58,4 @@ class MovieCell: UICollectionViewCell {
         }
     }
     
-    let imageView: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleToFill
-        image.clipsToBounds = false
-        return image
-        
-    }()
-    
-    let title: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = UIColor.white
-        label.font = UIFont(name: "Avenir-Heavy", size: 15)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-        
-    }()
-    
-    let date: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = UIColor.white
-        label.font = UIFont(name: "Avenir-Book", size: 13)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-        
-    }()
-    
-    let rate: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = UIColor.white
-        label.font = UIFont(name: "Avenir-Book", size: 13)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-        
-    }()
-    
-    let genre: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = UIColor.white
-        label.font = UIFont(name: "Avenir-Book", size: 13)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-        
-    }()
-    
-    func setupView() {
-        addSubview(imageView)
-        addSubview(title)
-        addSubview(date)
-        addSubview(rate)
-        addSubview(genre)
-        imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
-        imageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
-        imageView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        
-        
-        title.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 2).isActive = true
-        title.leftAnchor.constraint(equalTo: imageView.leftAnchor, constant: 0).isActive = true
-        title.rightAnchor.constraint(equalTo: imageView.rightAnchor, constant: 0).isActive = true
-        title.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        
-        date.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 0).isActive = true
-        date.leftAnchor.constraint(equalTo: title.leftAnchor, constant: 0).isActive = true
-        date.rightAnchor.constraint(equalTo: title.rightAnchor, constant: 0).isActive = true
-        date.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        
-        rate.topAnchor.constraint(equalTo: date.bottomAnchor, constant: 0).isActive = true
-        rate.leftAnchor.constraint(equalTo: date.leftAnchor, constant: 0).isActive = true
-        rate.rightAnchor.constraint(equalTo: date.rightAnchor, constant: 0).isActive = true
-        rate.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        
-        genre.topAnchor.constraint(equalTo: rate.bottomAnchor, constant: 0).isActive = true
-        genre.leftAnchor.constraint(equalTo: rate.leftAnchor, constant: 0).isActive = true
-        genre.rightAnchor.constraint(equalTo: rate.rightAnchor, constant: 0).isActive = true
-        genre.heightAnchor.constraint(equalToConstant: 28).isActive = true
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }

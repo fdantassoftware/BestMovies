@@ -29,7 +29,6 @@ extension GenreViewModel {
     private func parseData(data: Data) {
         do {
             let result = try JSONDecoder().decode(GenreResults.self, from: data)
-            // Here we sort our array of movies by popularity
             GenreHelper.shared.genres = result.genres
         } catch let error {
             print(error)
